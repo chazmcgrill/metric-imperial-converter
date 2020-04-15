@@ -1,0 +1,33 @@
+{
+  "name": "metric-imperial-converter",
+  "version": "0.1.0",
+  "description": "Metric / imperial converter api, built using node.",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Add some tests.\"",
+    "start": "nodemon app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/chazmcgrill/metric-imperial-converter.git"
+  },
+  "keywords": [
+    "node",
+    "express",
+    "api"
+  ],
+  "author": "Charlie Taylor <mail@charlietaylorcoder.com> (https://charlietaylorcoder.com)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/chazmcgrill/metric-imperial-converter/issues"
+  },
+  "homepage": "https://github.com/chazmcgrill/metric-imperial-converter#readme",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1",
+    "pug": "^2.0.4"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.3"
+  }
+}

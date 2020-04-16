@@ -16,7 +16,27 @@ const UNITS_DATA = {
         longName: 'kilometers',
         returnUnit: 'mi',
         conversion: (val) => val / 1.60934,
-    }
+    },
+    lbs: {
+        longName: 'pounds',
+        returnUnit: 'kg',
+        conversion: (val) => val / 2.20462,
+    },
+    kg: {
+        longName: 'kilograms',
+        returnUnit: 'lbs',
+        conversion: (val) => val * 2.20462,
+    },
+    gal: {
+        longName: 'gallons',
+        returnUnit: 'L',
+        conversion: (val) => val / 4.54609,
+    },
+    L: {
+        longName: 'litres',
+        returnUnit: 'gal',
+        conversion: (val) => val * 4.54609,
+    },
 };
 
 const fractionStringToDecimal = (str) => {
@@ -47,7 +67,7 @@ const getConversionObject = (input) => {
     if (!unitData) return 'invalid unit'; 
     
     const initNum = validateNumberString(num); // TODO: 5 decimal places
-    
+
     if (!initNum) return 'invalid number';
 
     const { longName, returnUnit, conversion } = unitData;

@@ -1,6 +1,6 @@
 {
   "name": "metric-imperial-converter",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "Metric / imperial converter api, built using node.",
   "main": "app.js",
   "scripts": {

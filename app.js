@@ -1,3 +1,5 @@
+const path = require('path');
+
 const express = require('express');
 const bodyParser = require('body-parser');
 const helmet = require('helmet');
@@ -9,6 +11,7 @@ const app = express();
 app.use(helmet.noSniff());
 app.use(helmet.xssFilter());
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(express.static(path.join(__dirname, 'public')));
 
 app.set('view engine', 'pug');
 

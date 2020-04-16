@@ -1,33 +1,51 @@
 extends layouts/head.pug
 
 block content
-    h1 Metric / Imperial Convertor
+    .container
+        h1 Metric / Imperial Convertor
 
-    p An node express api that converts between metric and imperial units. Supports the following units:
+        p
+            | An node express api that converts between metric and imperial units. Number should be either integer, decimal,  fraction or mixed formats. These short hand unit formats: 
+            em mi, km, gal, l, lbs and kg 
+            | are supported.
 
-    ul
-        li mi / km
-        li gal / l
-        li lbs / kg
+        h2 Example usage:
 
-    h2 Example usage:
+        ul
+            li /convert?input=4gal
+            li /convert?input=1/2km
+            li /convert?input=5.4/3lbs
+            li /convert?input=kg
 
-    ul
-        li /convert?input=4gal
-        li /convert?input=1/2km
-        li /convert?input=5.4/3lbs
-        li /convert?input=kg
+        h2 Example return:
 
-    h2 Example return:
+        p.code-block
+            | {
+            |   "initNum":3.1,
+            |   "initUnit":"mi",
+            |   "returnNum":4.98895,
+            |   "returnUnit":"km",
+            |   "string":"3.1 miles converts to 4.98895 kilometers"
+            | }
 
-    p {"initNum":3.1,"initUnit":"mi","returnNum":4.98895,"returnUnit":"km","string":"3.1 miles converts to 4.98895 kilometers"}
+        h2 Example frontend:
 
-    h2 Example frontend:
+        form(action="/convert", method="post")
+            input(type="text", placeholder="example 3gal" name="input")
+            input(type="submit", value="Submit")
 
-    form(action="/convert", method="post")
-        input(type="text", placeholder="example 3gal" name="input")
-        button(type="submit") Submit
+            if conversionObject
+                .convertion-data
+                    if typeof(conversionObject) === 'string'
+                        p.error #{conversionObject}
+                    else
+                        b #{conversionObject.string}
 
-    if conversionObject
-        b #{conversionObject.string}
-        p #{JSON.stringify(conversionObject)}
+                        p.code-block
+                            | {
+                            |   "initNum": #{conversionObject.initNum},
+                            |   "initUnit": #{conversionObject.initUnit},
+                            |   "returnNum": #{conversionObject.returnNum},
+                            |   "returnUnit": #{conversionObject.returnUnit},
+                            |   "string": #{conversionObject.string}
+                            | }

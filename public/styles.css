@@ -1,0 +1,66 @@
+body {
+	font-family: 'Roboto Mono', monospace;
+	font-size: 14px;
+	color: #222;
+	background-color: #FaFaFa;
+    line-height: 1.4em;
+}
+
+.container {
+    margin: 0 auto;
+    max-width: 600px;
+}
+
+h2 {
+    margin-top: 2rem;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    background: rgb(238, 238, 238);
+}
+
+label {
+    margin: 10px 5px;
+}
+
+input {
+    font-size: 0.9rem;
+    padding: 10px;
+    font-family: inherit;
+    border: 1px solid #222;
+    outline: none;
+}
+
+input[type=submit] {
+    margin-top: 20px;
+    border: 2px solid #2574A9;
+    color: #2574A9;
+    background: #FaFaFa;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out; 
+}
+
+input[type=submit]:hover {
+    color: #FaFaFa;
+    background: #2574A9;
+}
+
+a {
+    color: #2574A9;
+    text-decoration: none;
+}
+
+.code-block {
+    white-space: pre;
+}
+
+.convertion-data {
+    margin-top: 1rem;
+}
+
+.error {
+    color: darkred;
+}

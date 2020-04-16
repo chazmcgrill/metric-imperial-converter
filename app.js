@@ -4,7 +4,20 @@ const app = express();
 
 app.set('view engine', 'pug');
 
-const numberFormatRegex = /^\d+([.]\d+)?(\/\d+([.]\d+)?)?$/;
+const NUMBER_FORMAT_REGEX = /^\d+([.]\d+)?(\/\d+([.]\d+)?)?$/;
+
+const UNITS_DATA = {
+    mi: {
+        longName: 'miles',
+        returnUnit: 'km',
+        conversion: (val) => val * 1.60934,
+    },
+    km: {
+        longName: 'kilometers',
+        returnUnit: 'mi',
+        conversion: (val) => val / 1.60934,
+    }
+};
 
 const fractionStringToDecimal = (str) => {
     const [a, b] = str.split('/').map(Number);
@@ -16,7 +29,7 @@ const validateNumberString = (num) => {
         case (num === ''):
             return 1;
 
-        case (!numberFormatRegex.test(num)):
+        case (!NUMBER_FORMAT_REGEX.test(num)):
             return false;
 
         case (num.includes('/')):
@@ -28,14 +41,21 @@ const validateNumberString = (num) => {
 }
 
 const getConversionObject = (input) => {
-    const [num, unit] = input.split(/([A-z]+)/);
+    const [num, initUnit] = input.split(/([A-z]+)/);
+    const unitData = UNITS_DATA[initUnit];
 
-    if (!unit) return 'invalid unit'; // TODO: Add function to check against valid unit types
+    if (!unitData) return 'invalid unit'; 
     
-    let initNum = validateNumberString(num);
+    const initNum = validateNumberString(num); // TODO: 5 decimal places
+    
     if (!initNum) return 'invalid number';
 
-    return { initNum, initUnit: unit };
+    const { longName, returnUnit, conversion } = unitData;
+    const returnNum = conversion(initNum); // TODO: 5 decimal places
+    const returnLongName = UNITS_DATA[returnUnit].longName;
+    const string = `${initNum} ${longName} converts to ${returnNum} ${returnLongName}`;
+
+    return { initNum, initUnit, returnNum, returnUnit, string };
 }
 
 app.post('/convert', (req, res) => {

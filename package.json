@@ -5,7 +5,10 @@
   "main": "app.js",
   "scripts": {
     "test": "echo \"Add some tests.\"",
-    "start": "nodemon app.js"
+    "start": "nodemon app.js",
+    "preversion": "npm test",
+    "version": "git add .",
+    "postversion": "git push && git push --tags"
   },
   "repository": {
     "type": "git",

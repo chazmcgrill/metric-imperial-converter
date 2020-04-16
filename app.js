@@ -4,9 +4,14 @@ const app = express();
 
 app.set('view engine', 'pug');
 
-const numberFormatRegex = /^\d+[.]?(\d+)?\/?(\d+[.]?(\d+)?)?$/
+const numberFormatRegex = /^\d+([.]\d+)?(\/\d+([.]\d+)?)?$/;
 
-function validateNum(num) {
+const fractionStringToDecimal = (str) => {
+    const [a, b] = str.split('/').map(Number);
+    return a / b;
+} 
+
+const validateNumberString = (num) => {
     switch(true) {
         case (num === ''):
             return 1;
@@ -15,28 +20,27 @@ function validateNum(num) {
             return false;
 
         case (num.includes('/')):
-            const [a, b] = num.split('/').map(Number);
-            return a / b;
+            return fractionStringToDecimal(num);
 
         default:
             return Number(num); 
     }
 }
 
-function validateInput(input) {
+const getConversionObject = (input) => {
     const [num, unit] = input.split(/([A-z]+)/);
 
     if (!unit) return 'invalid unit'; // TODO: Add function to check against valid unit types
     
-    let initNum = validateNum(num)
+    let initNum = validateNumberString(num);
     if (!initNum) return 'invalid number';
 
-    return { initNum, initUnit: unit }
+    return { initNum, initUnit: unit };
 }
 
 app.post('/convert', (req, res) => {
     const { input } = req.query;
-    res.send(validateInput(input))
+    res.send(getConversionObject(input));
 });
 
 app.get('/', (req, res) => {

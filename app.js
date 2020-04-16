@@ -60,19 +60,22 @@ const validateNumberString = (num) => {
     }
 }
 
+const roundedNum = num => num.toFixed(5);
+
 const getConversionObject = (input) => {
     const [num, initUnit] = input.split(/([A-z]+)/);
     const unitData = UNITS_DATA[initUnit];
 
     if (!unitData) return 'invalid unit'; 
     
-    const initNum = validateNumberString(num); // TODO: 5 decimal places
+    const formattedNum = validateNumberString(num);
 
-    if (!initNum) return 'invalid number';
+    if (!formattedNum) return 'invalid number';
 
     const { longName, returnUnit, conversion } = unitData;
-    const returnNum = conversion(initNum); // TODO: 5 decimal places
+    const returnNum = roundedNum(conversion(formattedNum));
     const returnLongName = UNITS_DATA[returnUnit].longName;
+    const initNum = roundedNum(formattedNum);
     const string = `${initNum} ${longName} converts to ${returnNum} ${returnLongName}`;
 
     return { initNum, initUnit, returnNum, returnUnit, string };

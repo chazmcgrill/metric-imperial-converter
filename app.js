@@ -1,8 +1,12 @@
 const express = require('express');
+const helmet = require('helmet');
+
+const utils = require('./utils');
 
 const app = express();
 
-const utils = require('./utils');
+app.use(helmet.noSniff());
+app.use(helmet.xssFilter());
 
 app.set('view engine', 'pug');
 

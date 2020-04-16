@@ -4,32 +4,32 @@ const UNITS_DATA = {
     mi: {
         longName: 'miles',
         returnUnit: 'km',
-        conversion: (val) => val * 1.60934,
+        convert: (val) => val * 1.60934,
     },
     km: {
         longName: 'kilometers',
         returnUnit: 'mi',
-        conversion: (val) => val / 1.60934,
+        convert: (val) => val / 1.60934,
     },
     lbs: {
         longName: 'pounds',
         returnUnit: 'kg',
-        conversion: (val) => val / 2.20462,
+        convert: (val) => val / 2.20462,
     },
     kg: {
         longName: 'kilograms',
         returnUnit: 'lbs',
-        conversion: (val) => val * 2.20462,
+        convert: (val) => val * 2.20462,
     },
     gal: {
         longName: 'gallons',
-        returnUnit: 'L',
-        conversion: (val) => val / 4.54609,
+        returnUnit: 'l',
+        convert: (val) => val / 4.54609,
     },
-    L: {
+    l: {
         longName: 'litres',
         returnUnit: 'gal',
-        conversion: (val) => val * 4.54609,
+        convert: (val) => val * 4.54609,
     },
 };
 
@@ -54,20 +54,19 @@ const validateNumberString = (num) => {
     }
 }
 
-const roundedNum = num => num.toFixed(5);
+const roundedNum = num => num % 1 === 0 ? num : num.toFixed(5);
 
 const getConversionObject = (input) => {
     const [num, initUnit] = input.split(/([A-z]+)/);
+    const formattedNum = validateNumberString(num);
     const unitData = UNITS_DATA[initUnit];
 
+    if (!unitData && !formattedNum) return 'invalid number and unit';
     if (!unitData) return 'invalid unit';
-
-    const formattedNum = validateNumberString(num);
-
     if (!formattedNum) return 'invalid number';
 
-    const { longName, returnUnit, conversion } = unitData;
-    const returnNum = roundedNum(conversion(formattedNum));
+    const { longName, returnUnit, convert } = unitData;
+    const returnNum = roundedNum(convert(formattedNum));
     const returnLongName = UNITS_DATA[returnUnit].longName;
     const initNum = roundedNum(formattedNum);
     const string = `${initNum} ${longName} converts to ${returnNum} ${returnLongName}`;
